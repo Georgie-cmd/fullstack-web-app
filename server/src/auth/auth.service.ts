@@ -6,6 +6,7 @@ import * as ipify from 'ipify2';
 import * as randomToken from 'rand-token';
 import * as moment from 'moment';
 import { RegisterDetailsDto } from 'src/dto/registration/register-details.dto';
+import { CurrentUser } from 'src/dto/current-user.dto';
 
 
 
@@ -45,5 +46,28 @@ export class AuthService {
                 password: hashedPassword
             })
         }
+    }
+
+
+    async userValidation(email: string, password: string): Promise<CurrentUser> {
+        const user = this.userService.searchbyEmail(email)
+        if(!user) {
+            throw new HttpException('Incorrect email or password...', HttpStatus.BAD_REQUEST)
+        }
+
+        let passwordEquals = await bcrypt.compare(password, (await user).password)
+        if(!passwordEquals) {
+            throw new HttpException('Incorrect email or password...', HttpStatus.BAD_REQUEST)
+        }
+
+
+        let currentUser = new CurrentUser()
+        currentUser.id = (await user).id
+        currentUser.first_name = (await user).first_name
+        currentUser.last_name = (await user).last_name
+        currentUser.role_in_company = (await user).role_in_company
+        currentUser.email= (await user).email
+
+        return currentUser 
     }
 }

@@ -9,6 +9,9 @@ import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { TokenService } from './token.service';
+import { JwtStrategyService } from './strategies/jwt-strategy/jwt-strategy.service';
+import { LocalStrategyService } from './strategies/local-strategy/local-strategy.service';
+import { RefreshStrategyService } from './strategies/refresh-strategy/refresh-strategy.service';
 
 
 
@@ -28,9 +31,21 @@ import { TokenService } from './token.service';
       }
     })
   ],
-  providers: [AuthService, TokenService],
+  providers: [
+    AuthService, 
+    TokenService,
+    JwtStrategyService,
+    LocalStrategyService,
+    RefreshStrategyService
+  ],
   controllers: [AuthController],
-  exports: []
+  exports: [
+    AuthService, 
+    TokenService,
+    JwtStrategyService,
+    LocalStrategyService,
+    RefreshStrategyService
+  ]
 })
 
 export class AuthModule {}

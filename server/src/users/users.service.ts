@@ -4,6 +4,7 @@ import { Token } from 'src/database/token.model';
 import { User } from 'src/database/user.model';
 import { CreateUserDetails } from 'src/dto/creating/create-details.dto';
 import { CreateUserDto } from 'src/dto/creating/create-user.dto';
+import { CurrentUser } from 'src/dto/current-user.dto';
 
 
 
